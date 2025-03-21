@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Interpretador Python</title>
+    <script>
+        async function executarCodigo() {
+            let codigo = document.getElementById("codigo").value;
+            let entrada = document.getElementById("entrada").value;
+
+            let response = await fetch("http://localhost:5000/executar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ codigo, entrada })
+            });
+
+            let data = await response.json();
+            document.getElementById("resultado").innerText = data.saida || data.erro;
+        }
+    </script>
+</head>
+<body style="text-align: center; padding: 50px;">
+    <h1>Mini Interpretador Python</h1>
+    <textarea id="codigo" placeholder="Digite seu código Python aqui..." rows="5" cols="50"></textarea><br>
+    <input type="text" id="entrada" placeholder="Digite os valores de entrada separados por espaço"><br>
+    <button onclick="executarCodigo()">Executar</button>
+    <pre id="resultado"></pre>
+</body>
+</html>
